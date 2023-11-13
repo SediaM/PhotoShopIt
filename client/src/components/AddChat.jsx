@@ -6,7 +6,7 @@ import { ADD_COMMENT } from '../../utils/mutations';
 
 import Auth from '../../utils/auth';
 
-const CommentForm = ({ userId }) => {
+const AddChat = ({ userId }) => {
     const [commentText, setCommentText] = useState('');
     const [characterCount, setCharacterCount] = useState(0);
 
@@ -40,7 +40,7 @@ const CommentForm = ({ userId }) => {
 
     return (
         <div>
-            <h4>What are your thoughts on this photo?</h4>
+            <h4>What are your comments to this photo?</h4>
 
             {Auth.loggedIn() ? (
                 <>
@@ -75,7 +75,7 @@ const CommentForm = ({ userId }) => {
                 </>
             ) : (
                 <p>
-                    You need to be logged in to share your thoughts and photos. Please{' '}
+                    You need to be logged in to share your comments and photos. Please{' '}
                     <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
                 </p>
             )}
@@ -83,4 +83,4 @@ const CommentForm = ({ userId }) => {
     );
 };
 
-export default CommentForm;
+export default AddChat;

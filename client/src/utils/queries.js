@@ -59,7 +59,7 @@ query getPhoto {
 `;
 
 export const GET_COMMENT = gql`
-query getCmment {
+query getComment {
   comments {
     _id
     username
