@@ -4,15 +4,15 @@ import { useQuery } from '@apollo/client';
 import Chat from '../components/Chat';
 import AddChat from '../components/AddChat';
 
-import { GET_PHOTO } from '../utils/queries';
+import { SINGLE_PHOTO } from '../utils/queries';
 
 const OnePost = () => {
-    // Use `useParams()` to retrieve value of the route parameter `:profileId`
-    const { userId } = useParams();
+    // Use `useParams()` to retrieve value of the route parameter 
+    const { photoId } = useParams();
 
-    const { loading, data } = useQuery(GET_PHOTO, {
+    const { loading, data } = useQuery(SINGLE_PHOTO, {
         // pass URL parameter
-        variables: { userId: userId },
+        variables: { photoId: photoId },
     });
 
     const photo = data?.photo || {};
@@ -23,7 +23,7 @@ const OnePost = () => {
     return (
         <div className="my-3">
             <h3 className="card-header bg-dark text-light p-2 m-0">
-                {photo.photoId} <br />
+                {photo.photoOwner} <br />
                 <span style={{ fontSize: '1rem' }}>
                     posted this on {photo.date}
                 </span>
@@ -43,7 +43,7 @@ const OnePost = () => {
             </div>
 
             <div className="my-5">
-                <Chat comments={photo.comment} />
+                <Chat comments={photo.comments} />
             </div>
             <div className="m-3 p-4" style={{ border: '1px dotted #1a1a1a' }}>
                 <AddChat photoId={photo._id} />

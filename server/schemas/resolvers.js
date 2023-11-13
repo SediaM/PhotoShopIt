@@ -1,123 +1,72 @@
 const { GraphQLError } = require("graphql");
-const { Photo, User } = require('../models');
+const { Comment, Photo, User } = require('../models');
 
 const { signToken, AuthenticationError } = require('../utils/jwt');
 
 const resolvers = {
     Query: {
-        me: async (context, { _id }) => {
-            if (context.user) {
-                const params = _id ? { _id } : {};
-                return User.find(params);
-            }
-            // comments: async (context, { _id }) => {
-            //     if (context.user) {
-            //         return await 
-            //     }
-            //     // schools: async () => {
-            //     // return await School.find({}).populate('classes').populate({
-            //     //     path: 'classes',
-            //     //     populate: 'professor'
-            //     //   });
-            // }
-            // photos: async (context, { userId }) => {
-            //     if (context.user) {
-            //         return await Photo.find({}).populate('comments').populate({
-            //             path: 'comments',
-            //             populate: ''
-            //         })
-            //     }
-            // }
-
-
+        user: async (parent, { username }) => {
+            return User.findOne({ username }).populate('photos');
         },
+        users: async () => {
+            return User.find().populate('photos');
+        },
+        photos: async (parent, { username }) => {
+            const params = username ? { username } : {};
+            return Photo.find({}).sort({ createdAt: -1 });
+        },
+        photo: async (parent, { photoId }) => {
+            return Photo.findOne({ _id: photoId });
+        }
+
     },
 
     Mutation: {
+        addUser: async (parent, { username, email, password }) => {
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user };
+        },
 
-        addUser: async (_, args, /*{ username, email, password }*/) => {
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+      
+            if (!user) {
+              throw AuthenticationError;
+            }
+      
+            const correctPw = await user.isCorrectPassword(password);
+      
+            if (!correctPw) {
+              throw AuthenticationError;
+            }
+      
+            const token = signToken(user);
+      
+            return { token, user };
+        },
 
-            try {
-                const user = await User.create(args);
-                const token = signToken({
-                    _id: user._id,
-                    email: user.email,
-                    username: user.username,
-                    password: user.password,
+        addPhoto: async (parent, { description, photoOwner, title, imageLink }) => {
+
+            const photo = await Photo.create(
+                {
+                    description, photoOwner, title, imageLink
                 });
 
-                return { token };
+            await User.findOneAndUpdate(
+                { username: photoOwner },
+                { $addToSet: { photos: photo._id } }
+            );
 
-
-            } catch (error) {
-                return new GraphQLError("Invalid Sign Up" + error, {
-                    extensions: {
-                        code: "BAD_USER_INPUT",
-                    },
-                });
-            }
-        },
-        login: async (_, args, /*{ email, password }*/) => {
-            try {
-                const user = await User.findOne({ email: args.email, });
-
-                const correctPw = await user.isCorrectPassword(args.password);
-
-                if (correctPw) {
-                    const token = signToken({
-                        _id: user._id,
-                        email: user.email,
-                        username: user.username,
-                        password: user.password,
-                    });
-
-                    return { token };
-                }
-            } catch (error) {
-                return error;
-            }
+            return photo;
         },
 
-        addPhoto: async (parent, { userId, photo }, context) => {
-            if (context.user) {
-                return await User.findOneAndUpdate(
-                    {
-                        _id: userId
-                    },
-                    {
-                        $addToSet: { photos: photo },
-                    },
-                    {
-                        new: true,
-                        runValidators: true,
-                    }
-                )
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            }
-            throw AuthenticationError;
-        },
-
-        removePhoto: async ({ photo }, context) => {
-            if (context.user) {
-                return User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { photos: photo } },
-                    { new: true }
-                );
-            }
-            throw AuthenticationError;
-        },
-
-        addComment: async ({ photoId, comment }, context) => {
-            if (context.user) {
+        addComment: async (parent, { photoId, commentBody, username }) => {
+            if (username) {
                 return await Photo.findOneAndUpdate(
+                    { _id: photoId },
                     {
-                        _id: photoId
-                    },
-                    {
-                        $addToSet: { comments: comment },
+                        $addToSet: { comments: commentBody, username },
                     },
                     {
                         new: true,
@@ -132,12 +81,20 @@ const resolvers = {
 
         },
 
-
-        removeComment: async ({ comment }, context) => {
+        removePhoto: async ({ parent, photoId }, context) => {
             if (context.user) {
+                return Photo.findOneAndDelete(
+                    { _id: photoId });
+            }
+            throw AuthenticationError;
+        },
+
+
+        removeComment: async (parent, { photoId, commentId }) => {
+            if (commentId) {
                 return Photo.findOneAndUpdate(
-                    { photoId: context.photo._id },
-                    { $pull: { comments: comment } },
+                    { _id: photoId },
+                    { $pull: { comments: { _id: commentId } } },
                     { new: true }
                 );
             }

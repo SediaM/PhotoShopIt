@@ -1,10 +1,6 @@
 
 import { gql } from '@apollo/client';
 
-// Must delete later 
-
-// Send USER_LOGIN to loginform component
-
 export const LOGIN_USER = gql`
 mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -14,29 +10,10 @@ mutation login($email: String!, $password: String!) {
       username
       email
       password
-      photos {
-        title
-        photoId
-        description
-        imagelink
-        date
-        comment {
-          editPhoto
-          user
-          date
-          text
-          likes 
-          dislikes
-      }
-      }
     }
   }
 }
 `;
-
-// Must delete later 
-
-// Send ADD_USER to SignUpform component
 
 export const ADD_USER = gql`
 mutation addUser($username: String!, $email: String!, $password: String!) {
@@ -47,21 +24,6 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
       username
       email
       password
-      photos {
-        title
-        photoId
-        description
-        imagelink
-        date
-        comments {
-          editPhoto
-          user
-          date
-          text
-          likes 
-          dislikes
-      }
-      }
     }
   }
 }
@@ -69,26 +31,34 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
 
 export const ADD_PHOTO = gql`
 
-mutation addPhoto($userId: ID!, $photoLink: String!, $deleteHash: String!) {
-    addPhoto(userId: $userId, photoLink: $photoLink, deleteHash: $deleteHash) {
-      _id
-      username
-      email
-      password
-      photos {
+# mutation addPhoto($photo: PhotoInput!) {
+#   addPhoto(photos: $photo) {
+
+mutation addPhoto(
+  $photoLink: String,
+  $description: String!,
+  $deleteHash: String) {
+addPhoto(
+   photoLink: $photoLink,
+   description: $description,
+   deleteHash: $deleteHash) {
+        _id
         title
         photoId
+        photoOwner
         description
-        photoLink
+        imageLink
         deleteHash
         date
         comments {
+          _id
           editPhoto
-          user
-          date
-          text
+          username
+          createdAt
+          commentBody
           likes 
           dislikes
+        }
         }
       }
     }
@@ -97,24 +67,26 @@ mutation addPhoto($userId: ID!, $photoLink: String!, $deleteHash: String!) {
 
 export const REMOVE_PHOTO = gql`
 mutation removePhoto($photo: String!) {
-  removePhoto(photo: $photo) {
+  removePhoto(photos: $photo) {
     _id
     username
     email
     password
     photos {
-        title
-        photoId
-        description
-        imagelink
-        date
-        comments {
-          editPhoto
-          user
-          date
-          text
-          likes 
-          dislikes
+      title
+      photoId
+      photoOwner
+      description
+      imageLink
+      deleteHash
+      date
+      comments {
+        editPhoto
+        username
+        createdAt
+        commentBody
+        likes 
+        dislikes
       }
     }
   }
@@ -123,30 +95,39 @@ mutation removePhoto($photo: String!) {
 
 
 export const ADD_COMMENT = gql`
-
-mutation addComment($userId: ID!, $comment: commentInput!) {
-  addComment(userId: $userId, comment: $comment) {
+mutation addComment(
+  $photoId: ID!
+  $commentBody: String!
+  $createdAt: String!
+  $likes: Int!
+  dislikes: Int!
+) {
+  addComment(
+    photoId: $photoId
+    commentBody: $commentBody
+    createdAt: $createdAt
+    likes: $likes
+    dislikes: $dislikes    
+  ) {
       _id
-      username
-      email
-      password
-      photos {
-        title
-        photoId
-        description
-        imagelink
-        date
-        comments {
-          editPhoto
-          user
-          date
-          text
-          likes 
-          dislikes
+      title
+      photoId
+      photoOwner
+      description
+      imageLink
+      deleteHash
+      date
+      comments {
+        _id
+        editPhoto
+        username
+        createdAt
+        commentBody
+        likes 
+        dislikes
         }
       }
     }
-  }
   `;
 
 
