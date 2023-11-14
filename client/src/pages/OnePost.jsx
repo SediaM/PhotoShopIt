@@ -4,13 +4,13 @@ import { useQuery } from '@apollo/client';
 import Chat from '../components/Chat';
 import AddChat from '../components/AddChat';
 
-import { GET_PHOTO } from '../utils/queries';
+import { GET_SINGLE_PHOTO } from '../utils/queries';
 
 const OnePost = () => {
     // Use `useParams()` to retrieve value of the route parameter `:profileId`
     const { userId } = useParams();
 
-    const { loading, data } = useQuery(GET_PHOTO, {
+    const { loading, data } = useQuery(GET_SINGLE_PHOTO, {
         // pass URL parameter
         variables: { userId: userId },
     });

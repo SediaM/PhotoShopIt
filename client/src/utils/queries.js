@@ -14,8 +14,6 @@ query me($username: String!) {
       photoId
       photoOwner
       description
-      imageLink
-      deleteHash
       date
       }
     }
@@ -33,14 +31,30 @@ query getPhotos {
       imageLink
       deleteHash
       date
-      comment {
-        editPhoto
-        user
-        date
-        text
       }
     }
 `;
+
+export const GET_SINGLE_PHOTO = gql`
+query getPhoto($photoId: ID!) {
+  photo(photoId: $photoId) {
+      _id
+      title
+      photoId
+      photoOwner
+      description
+      imageLink
+      deleteHash
+      date
+      comments {
+        _id
+        commentText
+        createdAt
+      }
+      }
+    }
+`;
+
 
 export const GET_COMMENT = gql`
 query getComment {
