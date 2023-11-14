@@ -3,256 +3,87 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
-// import SearchPhotos from './';
-// import SeePhotos from './';
-
-import React from "react";
-// import "../style.css";
-import { useNavigate } from 'react-router-dom';
-
-// import logo from "../assets/proj3.png";
 import Auth from '../utils/auth';
 
-const logo = "logo";
-export default function Game() {
-    const history = useNavigate();
+const imageStyle = {
+    width: "90px",
+};
 
-    const handleLogout = () => {
-        Auth.logout();
-        history.push('/');
-    };
-
-    const containerStyle = {
-        marginTop: "10vh",
-    };
-
-    const cardStyle = {
-        marginTop: "10vh",
-        maxWidth: "60%",
-        padding: "20px",
-    };
-
-    const buttonGroupStyle = {
-        display: "flex",
-        justifyContent: "center", // Align buttons horizontally in the center
-    };
-
-    const button1Style = {
-        margin: "0 10px", // Add margin between buttons
-        width: "180px",
-        backgroundColor: '#ddd',
-        border: 'none',
-        color: 'black',
-        padding: '10px 20px',
-        textAlign: 'center',
-        textDecoration: 'none',
-        display: 'inline-block',
-        cursor: 'pointer',
-        borderRadius: '16px'
-    };
-
-    const button2Style = {
-        margin: "0 10px", // Add margin between buttons
-        width: "180px",
-        backgroundColor: '#ddd',
-        border: 'none',
-        color: 'black',
-        padding: '10px 20px',
-        textAlign: 'center',
-        textDecoration: 'none',
-        display: 'inline-block',
-        cursor: 'pointer',
-        borderRadius: '16px'
-    };
-
-    const button3Style = {
-        margin: "0 10px", // Add margin between buttons
-        width: "180px",
-        backgroundColor: '#ddd',
-        border: 'none',
-        color: 'black',
-        padding: '10px 20px',
-        textAlign: 'center',
-        textDecoration: 'none',
-        display: 'inline-block',
-        cursor: 'pointer',
-        borderRadius: '16px'
-    };
-
-    const imageStyle = {
-        width: "90px",
-    };
-
-    const getFormattedDate = () => {
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-        return mm + '/' + dd + '/' + yyyy;
-    };
-
-    const cardBottomStyle = {
-        marginTop: "20px",
-        textAlign: 'center', // Center align the text
-        fontSize: 'smaller', // Make the text smaller
-    };
+const AppNavbar = () => {
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <div
-                className="container-fluid d-flex h-100 justify-content-center align-items-center"
-                style={containerStyle}
-            >
-                <div className="card text-center bg-dark text-light" style={cardStyle}>
-                    <div className="card-body">
-                        <div className="picture">
-                            <img src={logo} alt="logo to our app" style={imageStyle} />
-                        </div>
-                        <h2 className="card-title">Sudoku</h2>
-                        <p className="cardDescription">
-                            Fill in each square, don't repeat numbers in the same box or line
-                        </p>
-                        <div style={buttonGroupStyle}>
-                            <a
-                                href="/Instructions"
-                                className="btn"
-                                style={button1Style}
-                            >
-                                How to Play
-                            </a>
+            <Navbar bg='dark' variant='dark' expand='lg'>
+                <Container fluid>
+                    <Navbar.Brand as={Link} to='/'>
+                        <img src="../assets/PhotoFlipLogo" alt="photoshopit logo" style={imageStyle} />
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls='navbar' />
+                    <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
+                        <Nav className='ml-auto d-flex'>
+                            <Nav.Link as={Link} to='/'>
+                                Search For Photos
+                            </Nav.Link>
                             {Auth.loggedIn() ? (
-                                <button
-                                    className="btn" style={button2Style} onClick={handleLogout}
-                                >Logout
+                                <>
 
-                                </button>
-
+                                    <Nav.Link as={Link} to='/'>
+                                        Sarch
+                                    </Nav.Link>
+                                    <Nav.Link as={Link} to='/YourPost'>
+                                        YourPost
+                                    </Nav.Link>
+                                    <Nav.Link as={Link} to='/OnePost'>
+                                        OnePost
+                                    </Nav.Link>
+                                    <Nav.Link as={Link} to='/Comment'>
+                                        Comment
+                                    </Nav.Link>
+                                    <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                                </>
                             ) : (
-                                <a href="/Login" className="btn" style={button2Style}>
-                                    Login
-                                </a>
+                                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
                             )}
-                            <a href="/Game" className="btn" style={button3Style}>
-                                Play
-                            </a>
-                        </div>
-                        <div className="cardBottom" style={cardBottomStyle}>
-                            {getFormattedDate()}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="wrap">
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        1
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        2
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        3
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        4
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        5
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        6
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        7
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        8
-                    </text>
-                </svg>
-
-                <svg className="svg">
-                    <text
-                        x="10"
-                        y="90"
-                        font-family="Helvetica, Arial, sans-serif"
-                        font-size="80"
-                        fill="white"
-                    >
-                        9
-                    </text>
-                </svg>
-            </div>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            {/* set modal data up */}
+            <Modal
+                size='lg'
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                aria-labelledby='signup-modal'>
+                {/* tab container to do either signup or login component */}
+                <Tab.Container defaultActiveKey='login'>
+                    <Modal.Header closeButton>
+                        <Modal.Title id='signup-modal'>
+                            <Nav variant='pills'>
+                                <Nav.Item>
+                                    <Nav.Link eventKey='login'>Login</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey='signup'>Sign Up</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Tab.Content>
+                            <Tab.Pane eventKey='login'>
+                                <LoginForm handleModalClose={() => setShowModal(false)} />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey='signup'>
+                                <SignUpForm handleModalClose={() => setShowModal(false)} />
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Modal.Body>
+                </Tab.Container>
+            </Modal>
         </>
     );
-}
+};
+
 
 export default AppNavbar;
