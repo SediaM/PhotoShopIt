@@ -121,25 +121,13 @@ const SearchPhoto = () => {
                   <Card.Body>
                     <Card.Title>{photo.title}</Card.Title>
                     <p className="small">Usernames: {photo.username}</p>
+                    <div>
+                      <img src={photo.link} alt={photo.title}></img>
+                    </div>
                     <Card.Text>{photo.description}</Card.Text>
-                    {Auth.loggedIn() && (
-                      <Button
-                        disabled={savedPhotoIds?.some(
-                          (savedPhotoId) => savedPhotoId === photo._id
-                        )}
-                        className="btn-block btn-success"
-                        onClick={() => handleSavePhoto(photo._id)}
-                      >
-                        {savedPhotoIds?.some(
-                          (savedPhotoId) => savedPhotoId === photo._id
-                        )
-                          ? "This book has already been saved!"
-                          : "Save this Book!"}
-                      </Button>
-                    )}
                     <div>
                       <Button className="btn-block btn-success" onClick={() => { navigate(`/OnePost/${photo._id}`) }}>
-                        View Photo
+                        View Post
                       </Button>
                     </div>
                   </Card.Body>
