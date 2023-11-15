@@ -1,8 +1,6 @@
-
-
 const typeDefs = `
 
-type User {
+  type User {
     _id: ID
     username: String
     email: String
@@ -41,6 +39,7 @@ type User {
     comments: [Comment]
     photos(username: String): [Photo]
     photo(photoId: ID!): Photo
+    searchPhotos(searchTerm: String): [Photo]
   }
 
 
@@ -51,9 +50,9 @@ type User {
 
     addPhoto(description: String!, photoOwner: String!, title: String!, imageLink: String!): Photo
 
-    addComment(photoId: ID!, commentBody: String!,
-    username: String!
-    ): Photo
+    savePhoto(photoId: ID!, username: String!): User
+
+    addComment(photoId: ID!, commentBody: String!, username: String!): Photo
 
     removePhoto(photoId: ID!): Photo
 
