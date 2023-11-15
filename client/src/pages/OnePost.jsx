@@ -22,9 +22,6 @@ const OnePost = () => {
         <div className="my-3">
             <h3 className="card-header bg-dark text-light p-2 m-0">
                 {photo.photoId} <br />
-                <span style={{ fontSize: '1rem' }}>
-                    posted this on {new Date(photo.date).toLocaleString()}
-                </span>
             </h3>
             <div className="bg-light py-4">
                 <blockquote

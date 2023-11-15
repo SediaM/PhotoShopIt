@@ -111,19 +111,14 @@ const SearchPhoto = () => {
             return (
               <Col key={photo._id} md="4" className="mt-2" >
                 <Card border="dark">
-                  {photo.image ? (
-                    <Card.Img
-                      src={photo.image}
-                      alt={`The cover for ${photo.title}`}
-                      variant="top"
-                    />
-                  ) : null}
+                  <Card.Img
+                    src={photo.imageLink}
+                    alt={`The cover for ${photo.title}`}
+                    variant="top"
+                  />
                   <Card.Body>
                     <Card.Title>{photo.title}</Card.Title>
-                    <p className="small">Usernames: {photo.username}</p>
-                    <div>
-                      <img src={photo.link} alt={photo.title}></img>
-                    </div>
+                    <p className="small">by: {photo.photoOwner}</p>
                     <Card.Text>{photo.description}</Card.Text>
                     <div>
                       <Button className="btn-block btn-success" onClick={() => { navigate(`/OnePost/${photo._id}`) }}>
