@@ -42,4 +42,4 @@ Collaborators GitHub profiles:
 
 Heroku Deployed URL:
 
-GitHub Deployed URL:
+GitHub Deployed URL: https://sediam.github.io/PhotoShopIt/
