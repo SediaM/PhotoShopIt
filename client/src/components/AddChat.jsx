@@ -73,18 +73,6 @@ const AddChat = ({ photoId }) => {
                         </div>
 
 
-                        <div className="col-12 col-lg-9">
-                            <textarea
-                                name="imageLink"
-                                placeholder="Enter the image link here..."
-                                value={imageLink}
-                                className="form-input w-100"
-                                style={{ lineHeight: '0.5' }}
-                                onChange={handleChange}
-                            >
-                            </textarea>
-                        </div>
-
                         <div className="col-12 text-center">
                             <button type="submit">
                                 Add Comment
