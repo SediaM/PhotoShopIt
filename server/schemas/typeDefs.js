@@ -38,7 +38,7 @@ const typeDefs = `
     user(username: String!): User
     comments: [Comment]
     photos(username: String): [Photo]
-    photo(photoId: ID!): Photo
+    photo(photoId: String!): Photo
     searchPhotos(searchTerm: String): [Photo]
   }
 
