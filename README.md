@@ -8,23 +8,17 @@ Our motivation for developing Photo flip was to create fun new way application t
 
 ## Table of Contents 
 
-- [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
-
-## Installation
-
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+- [Deployment](#deployment)
 
 ## Usage
 
 ![alt text](client/src/assets/PhotoFlipScreenshot.png)
 
 A user will sign up, create a post by pasting in a link to a photo they have already edited, give it a title, add a description and post. It will appear on the home page and a feed will be on their page when creating a post. A user can then leave a comment underneath any photo. The battle part of it will be to take the photo posted from another user and creating a new edit to it, where others can comment on the flipped version of someone else photo. 
-
-Demo: 
-    
+     
 
 ## Credits
 
@@ -40,6 +34,5 @@ Collaborators GitHub profiles:
 
 ## Deployment:
 
-Heroku Deployed URL:
-
+Heroku Deployed URL: https://photo-shop-it-b7b28611be34.herokuapp.com/
 GitHub Deployed URL: https://sediam.github.io/PhotoShopIt/
