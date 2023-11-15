@@ -1,4 +1,3 @@
-
 import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
@@ -32,24 +31,25 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
 export const ADD_PHOTO = gql`
 
 mutation addPhoto(
-  $imageLink: String,
+  $imageLink: String!,
   $description: String!,
-  $deleteHash: String) {
+  $photoOwner: String!,
+  $title: String!
+  ) {
 addPhoto(
    imageLink: $imageLink,
    description: $description,
-   deleteHash: $deleteHash) {
+   photoOwner: $photoOwner,
+   title: $title
+   ) {
         _id
         title
-        photoId
         photoOwner
         description
         imageLink
-        deleteHash
         date
         comments {
           _id
-          editPhoto
           username
           createdAt
           commentBody
@@ -73,10 +73,8 @@ mutation removePhoto($photo: String!) {
       photoOwner
       description
       imageLink
-      deleteHash
       date
       comments {
-        editPhoto
         username
         createdAt
         commentBody
@@ -93,38 +91,43 @@ export const ADD_COMMENT = gql`
 mutation addComment(
   $photoId: ID!
   $commentBody: String!
-  $createdAt: String!
-  $likes: Int!
-  $dislikes: Int!
-  $imageLink: String!
+  $username: String!
 ) {
   addComment(
     photoId: $photoId
     commentBody: $commentBody
-    createdAt: $createdAt
-    likes: $likes
-    dislikes: $dislikes    
-    imageLink: $imageLink
+    username: $username
   ) {
       _id
       title
-      photoId
       photoOwner
       description
       imageLink
-      deleteHash
       date
       comments {
         _id
-        editPhoto
         username
-        createdAt
         commentBody
-        likes 
-        dislikes
-        }
+        createdAt
       }
     }
-  `;
+  }
+`;
 
-
+export const SAVE_PHOTO = gql`
+mutation savePhoto($photoId: ID!, $username: String!) {
+  savePhoto(photoId: $photoId, username: $username) {
+    _id
+    username
+    email
+    password
+    photos {
+      _id
+      title
+      photoOwner
+      description
+      imageLink
+    }
+  }
+}
+`;

@@ -26,7 +26,7 @@ const router = createBrowserRouter([
                 element: <YourPost />,
             },
             {
-                path: '/OnePost',
+                path: '/OnePost/:photoId',
                 element: <OnePost />,
             },
             {

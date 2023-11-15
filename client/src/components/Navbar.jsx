@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
-// import SearchPhotos from './';
-// import SeePhotos from './';
 
 import Auth from '../utils/auth';
 
@@ -14,30 +12,27 @@ const AppNavbar = () => {
     return (
         <>
             <Navbar bg='dark' variant='dark' expand='lg'>
-                <Container fluid>
-                    <Navbar.Brand as={Link} to='/'>
-                        Search For Photos
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls='navbar' />
-                    <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
-                        <Nav className='ml-auto d-flex'>
-                            <Nav.Link as={Link} to='/'>
-                                Search For Photos
-                            </Nav.Link>
-                            {Auth.loggedIn() ? (
-                                <>
-
-                                    <Nav.Link as={Link} to='/saved'>
-                                        See Photos
-                                    </Nav.Link>
-                                    <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                                </>
-                            ) : (
-                                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-                            )}
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
+                <Navbar.Brand as={Link} to='/'>
+                    Search For Photos
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls='navbar' />
+                <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
+                    <Nav className='ml-auto d-flex'>
+                        <Nav.Link as={Link} to='/'>
+                            Search For Photos
+                        </Nav.Link>
+                        {Auth.loggedIn() ? (
+                            <>
+                                <Nav.Link as={Link} to='/YourPost'>
+                                    Post Photo
+                                </Nav.Link>
+                                <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                            </>
+                        ) : (
+                            <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                        )}
+                    </Nav>
+                </Navbar.Collapse>
             </Navbar>
             {/* set modal data up */}
             <Modal

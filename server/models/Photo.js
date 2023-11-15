@@ -18,13 +18,8 @@ const photoSchema = new Schema({
     date: {
         type: Date,
         default: Date.now,
-        get: (timestamp) => dateFormat(timestamp),
+        get: (timestamp) => Date(timestamp),
     },
-    // photoId: {
-    //     type: Types.ObjectId,
-    //     ref: "User",
-    //     required: true,
-    // },
     description: {
         type: String,
         required: 'Please leave a description for your photo...',
@@ -33,10 +28,6 @@ const photoSchema = new Schema({
         trim: true,
     },
     imageLink: {
-        type: String,
-        // required: true,
-    },
-    deleteHash: {
         type: String,
         // required: true,
     },

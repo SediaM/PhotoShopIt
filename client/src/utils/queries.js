@@ -1,4 +1,3 @@
-
 import { gql } from '@apollo/client';
 
 export const GET_ME = gql`
@@ -15,7 +14,6 @@ query me($username: String!) {
       photoOwner
       description
       imageLink
-      deleteHash
       date
       }
     }
@@ -27,21 +25,37 @@ query getPhotos {
   photos {
       _id
       title
-      photoId
       photoOwner
       description
       imageLink
-      deleteHash
       date
-      comment {
-        editPhoto
-        user
-        date
-        text
+      comments {
+        _id
+        username
+        createdAt
+        commentBody
+        likes
       }
     }
   }
 `;
+
+export const SEARCH_PHOTO = gql`
+  query searchPhotos($searchTerm: String) {
+    searchPhotos(searchTerm: $searchTerm) {
+      _id
+      title
+      photoOwner
+      description
+      imageLink
+      date
+      comments {
+        username
+        createdAt
+      }
+    }
+  }
+`
 
 export const GET_COMMENT = gql`
 query getComment {
@@ -57,7 +71,6 @@ query getComment {
         imagelink
         date
         comment {
-          editPhoto
           user
           date
           text
@@ -74,7 +87,6 @@ export const GET_COMMENTS = gql`
 query getComments {
   comments {
       _id
-      editPhoto
       username
       createdAt
       commentBody

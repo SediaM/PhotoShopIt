@@ -10,23 +10,32 @@ const PostForm = () => {
     const [imageLink, setImageLink] = useState('');
     const [description, setDescription] = useState('');
 
-    const [addPhoto, { error }] = useMutation(ADD_PHOTO, {
-        refetchQueries: [
-            GET_PHOTO,
-            'getPhoto'
-        ]
-    });
+    // const [addPhoto, { error }] = useMutation(ADD_PHOTO, {
+    //     refetchQueries: [
+    //         GET_PHOTO,
+    //         'getPhoto'
+    //     ]
+    // });
+
+    const [addPhoto, { error, data }] = useMutation(ADD_PHOTO);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
         try {
+            console.log("addphoto", {
+                photoOwner: Auth.getUser().data.username,
+                imageLink,
+                title: Title,
+                description,
+
+            })
             await addPhoto({
                 variables: {
                     photoOwner: Auth.getUser().data.username,
                     imageLink,
-                    Title,
-                    description
+                    title: Title,
+                    description,
                 },
             });
 
